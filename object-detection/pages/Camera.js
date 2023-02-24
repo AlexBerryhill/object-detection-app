@@ -1,10 +1,17 @@
 import React from 'react';
+const cameraPermission = await Camera.getCameraPermissionStatus()
 
 function Camera(){
+    const devices = useCameraDevices()
+    const device = devices.back
+
+    if (device == null) return <LoadingView />
     return(
-        <div>
-            <p>Camera</p>
-        </div>
+        <Camera
+    //   style={StyleSheet.absoluteFill}
+      device={device}
+      isActive={true}
+    />
     )
 }
 
