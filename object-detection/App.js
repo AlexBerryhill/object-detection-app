@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NativeRouter, Route, Routes } from "react-router-native";
 import Home from './pages/Home';
 import Camera from './pages/Camera';
-import FileViewerPage from './pages/FileViewer';
+import FileViewer from './pages/FileViewer';
 
 export default function App() {
   return (
