@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         backgroundColor: 'black',
-
     },
     button:{
         width: window.width-40,

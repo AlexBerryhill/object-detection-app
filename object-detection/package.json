@@ -2,7 +2,7 @@
   "name": "object-detection",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start --dev-client",
+    "start": "expo start --tunnel",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web"
@@ -10,6 +10,7 @@
   "dependencies": {
     "expo": "~47.0.12",
     "expo-camera": "~13.1.0",
+    "expo-image-picker": "~14.0.2",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-native": "0.70.5",

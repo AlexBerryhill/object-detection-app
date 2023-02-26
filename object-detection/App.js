@@ -10,7 +10,7 @@ export default function App() {
       <Routes>
         <Route path="/" exact element={<Home/>} />
         <Route path="/camera" element={<Camera/>} />
-        <Route path="/fileviewer" element={<FileViewerPage/>} />
+        <Route path="/fileviewer" element={<FileViewer/>} />
       </Routes>
     </NativeRouter>
   );
