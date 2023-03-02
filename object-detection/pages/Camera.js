@@ -1,10 +1,13 @@
 import { React, useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
+import * as FaceDetector from 'expo-face-detector';
+import Facebox from '../components/FaceBox';
 
 function CameraPage(){
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
+    const [bounds, setBounds] = useState({"origin": {"x": 0, "y": 0}, "size": {"height": 0, "width": 0}});
 
     if (!permission) {
         // Camera permissions are still loading
@@ -24,10 +27,28 @@ function CameraPage(){
     function toggleCameraType() {
         setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
     }
-
+    const handleFacesDetected = ({ faces }) => {
+        if(faces[0]!=undefined) setBounds(faces[0].bounds);
+    };
+    
     return(
         <View style={styles.container}>
-            <Camera style={styles.camera} type={type}>
+            <Facebox
+                origin={bounds.origin}
+                size={bounds.size}
+            />
+            <Camera 
+                style={styles.camera} 
+                type={type}
+                onFacesDetected={handleFacesDetected}
+                faceDetectorSettings={{
+                    mode: FaceDetector.FaceDetectorMode.fast,
+                    detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
+                    runClassifications: FaceDetector.FaceDetectorClassifications.none,
+                    minDetectionInterval: 100,
+                    tracking: true,
+                }}
+                >
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
                         <Text style={styles.text}>Flip Camera</Text>
