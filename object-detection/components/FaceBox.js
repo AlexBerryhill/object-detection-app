@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-function FaceBox({origin, size}){
+function FaceBox({origin, size, name}){
     const styles = {
         box: {
             height: size.height,
@@ -14,7 +14,7 @@ function FaceBox({origin, size}){
     }
     return (
         <View style={styles.box}>
-            <Text>Face</Text>
+            <Text>{name}</Text>
         </View>
     )
 }

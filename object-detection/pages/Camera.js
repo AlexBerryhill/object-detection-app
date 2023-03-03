@@ -8,7 +8,8 @@ function CameraPage(){
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [bounds, setBounds] = useState({"origin": {"x": 0, "y": 0}, "size": {"height": 0, "width": 0}});
-
+    const [features, setFeatures] = useState({"BOTTOM_MOUTH": {"x": 0, "y": 0}, "LEFT_CHEEK": {"x": 0, "y": 0}, "LEFT_EAR": {"x": 0, "y": 0}, "LEFT_EYE": {"x": 0, "y": 0}, "LEFT_MOUTH": {"x": 0, "y": 0}, "NOSE_BASE": {"x": 0, "y": 0}, "RIGHT_CHEEK": {"x": 0, "y": 0}, "RIGHT_EAR": {"x": 0, "y": 0}, "RIGHT_EYE": {"x": 0, "y": 0}, "RIGHT_MOUTH": {"x": 0, "y": 0}});
+    const FEATURE_SIZE = {'height': 25, 'width': 25}
     if (!permission) {
         // Camera permissions are still loading
         return <View />;
@@ -28,22 +29,21 @@ function CameraPage(){
         setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
     }
     const handleFacesDetected = ({ faces }) => {
-        if(faces[0]!=undefined) setBounds(faces[0].bounds);
+        if(faces[0]!=undefined) {
+            setBounds(faces[0].bounds);
+            setFeatures(faces[0]);
+        }
     };
     
     return(
         <View style={styles.container}>
-            <Facebox
-                origin={bounds.origin}
-                size={bounds.size}
-            />
             <Camera 
                 style={styles.camera} 
                 type={type}
                 onFacesDetected={handleFacesDetected}
                 faceDetectorSettings={{
                     mode: FaceDetector.FaceDetectorMode.fast,
-                    detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
+                    detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
                     runClassifications: FaceDetector.FaceDetectorClassifications.none,
                     minDetectionInterval: 100,
                     tracking: true,
@@ -55,6 +55,61 @@ function CameraPage(){
                     </TouchableOpacity>
                 </View>
             </Camera>
+            <Facebox
+                origin={bounds.origin}
+                size={bounds.size}
+                name='Face'
+            />
+            <Facebox
+                origin={features.BOTTOM_MOUTH}
+                size={FEATURE_SIZE}
+                name='Bottom Mouth'
+            />
+            <Facebox
+                origin={features.LEFT_CHEEK}
+                size={FEATURE_SIZE}
+                name='Left Cheek'
+            />
+            <Facebox
+                origin={features.LEFT_EAR}
+                size={FEATURE_SIZE}
+                name='Left Ear'
+            />
+            <Facebox
+                origin={features.LEFT_EYE}
+                size={FEATURE_SIZE}
+                name='Left Eye'
+            />
+            <Facebox
+                origin={features.LEFT_MOUTH}
+                size={FEATURE_SIZE}
+                name='Left Mouth'
+            />
+            <Facebox
+                origin={features.NOSE_BASE}
+                size={FEATURE_SIZE}
+                name='Nose Base'
+            />
+            <Facebox
+                origin={features.RIGHT_CHEEK}
+                size={FEATURE_SIZE}
+                name='Right Cheek'
+            />
+            <Facebox
+                origin={features.RIGHT_EAR}
+                size={FEATURE_SIZE}
+                name='Right Ear'
+            />
+            <Facebox
+                origin={features.RIGHT_EYE}
+                size={FEATURE_SIZE}
+                name='Right Eye'
+            />
+            <Facebox
+                origin={features.RIGHT_MOUTH}
+                size={FEATURE_SIZE}
+                name='Right Mouth'
+            />
         </View>
     )
 }
