@@ -1,10 +1,14 @@
+// This is a JavaScript code for a React Native app that uses Expo to access the camera and detect faces. Here is a brief explanation of what the code does:
 import { React, useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
 import Facebox from '../components/FaceBox';
 
+// The code imports the necessary dependencies to use React Native components, the camera module and the face detector module from the Expo SDK, and a custom Facebox component from a local file.
 function CameraPage(){
+    // This is a functional React component that renders the camera and face detection components.
+    // These are state variables used to store the camera type, the camera permission status, the bounding box and features of the detected face.
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [bounds, setBounds] = useState({"origin": {"x": 0, "y": 0}, "size": {"height": 0, "width": 0}});
@@ -26,8 +30,11 @@ function CameraPage(){
         "smilingProbability": 0, 
         "yawAngle": 0
     });
-    
+
+    // This is a constant that sets the size of the face features boxes.
     const FEATURE_SIZE = {'height': 25, 'width': 25}
+    
+    // These if statements check if the camera permission has been granted. If not, the component renders a message asking for permission and a button to request it. If the permission is still loading, it renders an empty view.
     if (!permission) {
         // Camera permissions are still loading
         return <View />;
@@ -43,9 +50,12 @@ function CameraPage(){
         );
     }
     
+    // This function toggles the camera type between front-facing and back-facing.
     function toggleCameraType() {
         setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
     }
+
+    // This function is called when a face is detected. It updates the bounding box and features state variables with the data from the detected face.
     const handleFacesDetected = ({ faces }) => {
         if(faces[0]!=undefined) {
             setBounds(faces[0].bounds);
