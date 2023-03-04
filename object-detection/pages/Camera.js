@@ -8,7 +8,25 @@ function CameraPage(){
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [bounds, setBounds] = useState({"origin": {"x": 0, "y": 0}, "size": {"height": 0, "width": 0}});
-    const [features, setFeatures] = useState({"BOTTOM_MOUTH": {"x": 0, "y": 0}, "LEFT_CHEEK": {"x": 0, "y": 0}, "LEFT_EAR": {"x": 0, "y": 0}, "LEFT_EYE": {"x": 0, "y": 0}, "LEFT_MOUTH": {"x": 0, "y": 0}, "NOSE_BASE": {"x": 0, "y": 0}, "RIGHT_CHEEK": {"x": 0, "y": 0}, "RIGHT_EAR": {"x": 0, "y": 0}, "RIGHT_EYE": {"x": 0, "y": 0}, "RIGHT_MOUTH": {"x": 0, "y": 0}});
+    const [features, setFeatures] = useState({
+        "BOTTOM_MOUTH": {"x": 0, "y": 0}, 
+        "LEFT_CHEEK": {"x": 0, "y": 0}, 
+        "LEFT_EAR": {"x": 0, "y": 0}, 
+        "LEFT_EYE": {"x": 0, "y": 0}, 
+        "LEFT_MOUTH": {"x": 0, "y": 0}, 
+        "NOSE_BASE": {"x": 0, "y": 0}, 
+        "RIGHT_CHEEK": {"x": 0, "y": 0}, 
+        "RIGHT_EAR": {"x": 0, "y": 0}, 
+        "RIGHT_EYE": {"x": 0, "y": 0}, 
+        "RIGHT_MOUTH": {"x": 0, "y": 0},
+        "faceID": 0, 
+        "leftEyeOpenProbability": 0, 
+        "rightEyeOpenProbability": 0, 
+        "rollAngle": 0, 
+        "smilingProbability": 0, 
+        "yawAngle": 0
+    });
+    
     const FEATURE_SIZE = {'height': 25, 'width': 25}
     if (!permission) {
         // Camera permissions are still loading
@@ -44,7 +62,7 @@ function CameraPage(){
                 faceDetectorSettings={{
                     mode: FaceDetector.FaceDetectorMode.fast,
                     detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
-                    runClassifications: FaceDetector.FaceDetectorClassifications.none,
+                    runClassifications: FaceDetector.FaceDetectorClassifications.all,
                     minDetectionInterval: 100,
                     tracking: true,
                 }}
@@ -58,17 +76,17 @@ function CameraPage(){
             <Facebox
                 origin={bounds.origin}
                 size={bounds.size}
-                name='Face'
+                name={`Face ${features.faceID} Roll: ${Math.round(features.rollAngle)}° Yaw: ${Math.round(features.yawAngle)}°`}
             />
             <Facebox
                 origin={features.BOTTOM_MOUTH}
                 size={FEATURE_SIZE}
-                name='Bottom Mouth'
+                name={`${Math.round(features.smilingProbability*100)}%`}
             />
             <Facebox
                 origin={features.LEFT_CHEEK}
                 size={FEATURE_SIZE}
-                name='Left Cheek'
+                name='LCheek'
             />
             <Facebox
                 origin={features.LEFT_EAR}
@@ -78,37 +96,37 @@ function CameraPage(){
             <Facebox
                 origin={features.LEFT_EYE}
                 size={FEATURE_SIZE}
-                name='Left Eye'
+                name={`${Math.round(features.leftEyeOpenProbability*100)}%`}
             />
             <Facebox
                 origin={features.LEFT_MOUTH}
                 size={FEATURE_SIZE}
-                name='Left Mouth'
+                name='LMouth'
             />
             <Facebox
                 origin={features.NOSE_BASE}
                 size={FEATURE_SIZE}
-                name='Nose Base'
+                name='Nose'
             />
             <Facebox
                 origin={features.RIGHT_CHEEK}
                 size={FEATURE_SIZE}
-                name='Right Cheek'
+                name='RCheek'
             />
             <Facebox
                 origin={features.RIGHT_EAR}
                 size={FEATURE_SIZE}
-                name='Right Ear'
+                name='REar'
             />
             <Facebox
                 origin={features.RIGHT_EYE}
                 size={FEATURE_SIZE}
-                name='Right Eye'
+                name={`${Math.round(features.rightEyeOpenProbability*100)}%`}
             />
             <Facebox
                 origin={features.RIGHT_MOUTH}
                 size={FEATURE_SIZE}
-                name='Right Mouth'
+                name='RMouth'
             />
         </View>
     )
